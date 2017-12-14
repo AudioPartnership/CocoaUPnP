@@ -1,18 +1,18 @@
 //
-//  CocoaUPnPiOS.h
-//  CocoaUPnPiOS
+//  CocoaUPnPMac.h
+//  CocoaUPnPMac
 //
 //  Created by Daniel K. Poulsen on 14/12/2017.
 //  Copyright © 2017 cambridgeaudio. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-//! Project version number for CocoaUPnPiOS.
-FOUNDATION_EXPORT double CocoaUPnPiOSVersionNumber;
+//! Project version number for CocoaUPnPMac.
+FOUNDATION_EXPORT double CocoaUPnPMacVersionNumber;
 
-//! Project version string for CocoaUPnPiOS.
-FOUNDATION_EXPORT const unsigned char CocoaUPnPiOSVersionString[];
+//! Project version string for CocoaUPnPMac.
+FOUNDATION_EXPORT const unsigned char CocoaUPnPMacVersionString[];
 
 // Events
 #import "UPPEventServer.h"

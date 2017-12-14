@@ -55,6 +55,7 @@
 
     [document.rootElement enumerateElementsWithXPath:@"//*[name()='device']" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
         NSString *deviceType = [[element firstChildWithTag:@"deviceType"] stringValue];
+        NSString *manufacturer = [[element firstChildWithTag:@"manufacturer"] stringValue];
 
         UPPBasicDevice *device;
 
@@ -64,6 +65,10 @@
         } else if ([deviceType rangeOfString:@":MediaServer:"].location != NSNotFound) {
             device = [UPPMediaServerDevice mediaServerWithURN:deviceType
                                                       baseURL:baseURL];
+        }
+        if ([manufacturer rangeOfString:@"Cambridge Audio"].location != NSNotFound) {
+            device = [UPPMediaServerDevice mediaServerWithURN:deviceType
+                                                    baseURL:baseURL];
         }
 
         if (!device) {
