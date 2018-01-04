@@ -82,7 +82,6 @@
 		6EBD13181FE2A89B005DFD94 /* UPPBasicService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBD12D01FE2A89B005DFD94 /* UPPBasicService.m */; };
 		6EBD13191FE2A8D6005DFD94 /* Ono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0B9252D1ED5D2A100BA1543 /* Ono.framework */; };
 		6EBD131A1FE2A8D6005DFD94 /* GCDWebServers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0B9252E1ED5D2A100BA1543 /* GCDWebServers.framework */; };
-		6EBD131B1FE2A8D6005DFD94 /* CocoaSSDP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0B9252F1ED5D2A100BA1543 /* CocoaSSDP.framework */; };
 		6EBD131C1FE2A8D6005DFD94 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0B925301ED5D2A100BA1543 /* CocoaAsyncSocket.framework */; };
 		6EBD131D1FE2A8D6005DFD94 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0B925311ED5D2A100BA1543 /* AFNetworking.framework */; };
 		6EBD13511FE303EB005DFD94 /* CocoaUPnPMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EBD134F1FE303EB005DFD94 /* CocoaUPnPMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -181,7 +180,6 @@
 			files = (
 				6EBD13191FE2A8D6005DFD94 /* Ono.framework in Frameworks */,
 				6EBD131A1FE2A8D6005DFD94 /* GCDWebServers.framework in Frameworks */,
-				6EBD131B1FE2A8D6005DFD94 /* CocoaSSDP.framework in Frameworks */,
 				6EBD131C1FE2A8D6005DFD94 /* CocoaAsyncSocket.framework in Frameworks */,
 				6EBD131D1FE2A8D6005DFD94 /* AFNetworking.framework in Frameworks */,
 			);
