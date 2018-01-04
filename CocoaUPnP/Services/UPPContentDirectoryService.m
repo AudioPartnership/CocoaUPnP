@@ -79,6 +79,39 @@ NSString * const UPPCDSSortCriteriaKey = @"SortCriteria";
     }];
 }
 
+
+- (void)browseDIDLWithObjectID:(NSString *)objectId browseFlag:(NSString *)browseFlag filter:(NSString *)filter startingIndex:(NSNumber *)startingIndex requestedCount:(NSNumber *)requestedCount sortCritera:(NSString *)sortCriteria completion:(void (^)(NSString *, NSError *))completion
+{
+    if (!completion) { return; }
+    
+    NSArray *k = @[ UPPCDSObjectIDKey,
+                    UPPCDSBrowseFlagKey,
+                    UPPCDSFilterKey,
+                    UPPCDSStartingIndexKey,
+                    UPPCDSRequestedCountKey,
+                    UPPCDSSortCriteriaKey ];
+    
+    NSArray *v = @[ [self valueOrDefault:objectId forKey:UPPCDSObjectIDKey],
+                    [self valueOrDefault:browseFlag forKey:UPPCDSBrowseFlagKey],
+                    [self valueOrDefault:filter forKey:UPPCDSFilterKey],
+                    [self valueOrDefault:startingIndex forKey:UPPCDSStartingIndexKey],
+                    [self valueOrDefault:requestedCount forKey:UPPCDSRequestedCountKey],
+                    [self valueOrDefault:sortCriteria forKey:UPPCDSSortCriteriaKey] ];
+    
+    UPPParameters *params = [UPPParameters paramsWithKeys:k
+                                                   values:v];
+    
+    [self _sendPostRequestWithParameters:params action:@"Browse" completion:^(NSDictionary *responseObject, NSError *error) {
+        
+        if (responseObject) {
+            completion(responseObject, error);
+        } else {
+            completion(nil, error);
+        }
+    }];
+}
+
+
 - (id)valueOrDefault:(id)value forKey:(NSString *)key
 {
     if (value) {
