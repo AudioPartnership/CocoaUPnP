@@ -15,10 +15,11 @@
 
 @implementation UPPDeviceParser
 
+
 + (void)parseURL:(NSURL *)url withCompletion:(CompletionBlock)completion
 {
     if (!completion) { return; }
-
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager.requestSerializer setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
@@ -37,27 +38,28 @@
 - (void)parseWithBaseURL:(NSURL *)baseURL completion:(CompletionBlock)completion
 {
     if (!completion) { return; }
-
+    
     if (self.data.length == 0) {
         completion(nil, UPPErrorWithCode(UPPErrorCodeEmptyData));
         return;
     }
-
+    
     NSError *error = nil;
     ONOXMLDocument *document = [ONOXMLDocument XMLDocumentWithData:self.data error:&error];
-
+    
     if (!document) {
         completion(nil, error);
         return;
     }
-
+    
     __block NSMutableArray *devices;
-
+    
     [document.rootElement enumerateElementsWithXPath:@"//*[name()='device']" usingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL *stop) {
         NSString *deviceType = [[element firstChildWithTag:@"deviceType"] stringValue];
-
+        NSString *manufacturer = [[element firstChildWithTag:@"manufacturer"] stringValue];
+        
         UPPBasicDevice *device;
-
+        
         if ([deviceType rangeOfString:@":MediaRenderer:"].location != NSNotFound) {
             device = [UPPMediaRendererDevice mediaRendererWithURN:deviceType
                                                           baseURL:baseURL];
@@ -65,27 +67,31 @@
             device = [UPPMediaServerDevice mediaServerWithURN:deviceType
                                                       baseURL:baseURL];
         }
-
+        if ([manufacturer rangeOfString:@"Cambridge Audio"].location != NSNotFound) {
+            device = [UPPMediaServerDevice mediaServerWithURN:deviceType
+                                                      baseURL:baseURL];
+        }
+        
         if (!device) {
             return;
         }
-
+        
         [self parseElement:element intoDevice:device];
         [self parseIcons:[element firstChildWithTag:@"iconList"] intoDevice:device];
         [self parseServices:[element firstChildWithTag:@"serviceList"] intoDevice:device];
-
+        
         if (!devices) {
             devices = [NSMutableArray array];
         }
-
+        
         [devices addObject:device];
     }];
-
+    
     if (!devices) {
         completion(nil, UPPErrorWithCode(UPPErrorCodeNoDeviceElementFound));
         return;
     }
-
+    
     completion([devices copy], nil);
 }
 
@@ -98,7 +104,7 @@
     device.modelNumber = [[element firstChildWithTag:@"modelNumber"] stringValueOrNil];
     device.serialNumber = [[element firstChildWithTag:@"serialNumber"] stringValueOrNil];
     device.udn = [[element firstChildWithTag:@"UDN"] stringValue];
-
+    
     NSString *url = [[element firstChildWithTag:@"manufacturerURL"] stringValueOrNil];
     if (url) { device.manufacturerURL = [NSURL URLWithString:url]; }
     url = [[element firstChildWithTag:@"modelURL"] stringValueOrNil];
@@ -117,7 +123,7 @@
         icon.url = [[iconElement firstChildWithTag:@"url"] stringValue];
         [icons addObject:icon];
     }];
-
+    
     if (icons.count > 0) {
         device.iconList = [icons copy];
     }
@@ -131,26 +137,26 @@
         ONOXMLElement *serviceType = [serviceElement firstChildWithTag:@"serviceType"];
         if (!serviceType) { return; }
         service.serviceType = [serviceType stringValue];
-
+        
         ONOXMLElement *serviceId = [serviceElement firstChildWithTag:@"serviceId"];
         if (!serviceId) { return; }
         service.serviceId = [serviceId stringValue];
-
+        
         ONOXMLElement *descriptionURL = [serviceElement firstChildWithTag:@"SCPDURL"];
         if (!descriptionURL) { return; }
         service.descriptionURL = [descriptionURL stringValue];
-
+        
         ONOXMLElement *controlURL = [serviceElement firstChildWithTag:@"controlURL"];
         if (!controlURL) { return; }
         service.controlURL = [controlURL stringValue];
-
+        
         ONOXMLElement *eventSubURL = [serviceElement firstChildWithTag:@"eventSubURL"];
         if (!eventSubURL) { return; }
         service.eventSubURL = [eventSubURL stringValue];
-
+        
         [services addObject:service];
     }];
-
+    
     if (services.count > 0) {
         device.services = [services copy];
     }
