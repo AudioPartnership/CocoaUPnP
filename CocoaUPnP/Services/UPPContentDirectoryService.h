@@ -72,6 +72,8 @@ extern NSString * const BrowseDirectChildren;
  */
 - (void)browseWithObjectID:(nullable NSString *)objectId browseFlag:(nullable NSString *)browseFlag filter:(nullable NSString *)filter startingIndex:(nullable NSNumber *)startingIndex requestedCount:(nullable NSNumber *)requestedCount sortCritera:(nullable NSString *)sortCriteria completion:(UPPResponseBlock)completion;
 
+- (void)browseDIDLWithObjectID:(nullable NSString *)objectId browseFlag:(nullable NSString *)browseFlag filter:(nullable NSString *)filter startingIndex:(nullable NSNumber *)startingIndex requestedCount:(nullable NSNumber *)requestedCount sortCritera:(nullable NSString *)sortCriteria completion:(UPPResponseBlock)completion;
+
 /**
  Search the content directory service
 
